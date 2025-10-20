@@ -73,6 +73,14 @@
 
 [常用词源](doc/china.md)
 
+### 运行的命令
+
+#### 配置依赖
+
+```js
+  // "lunaria:build": "lunaria --config docs/lunaria.config.json build",
+```
+
 # 参考资料
 
 ## 第三方依赖

@@ -9,7 +9,7 @@
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "lunaria:build": "lunaria --config docs/lunaria.config.json build",
+    "lunaria:build": "lunaria build",
     "lunaria:open": "open-cli -F=docs .vitepress/dist/_translations/index.html"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "vue": "^3.5.22"
   },
   "dependencies": {
+    "@shikijs/types": "^3.13.0",
     "npm": "^11.6.2",
     "vitepress": "^1.6.4",
     "vitepress-plugin-shiki-twoslash": "^0.0.6"

@@ -1,17 +1,17 @@
 {
-  "$schema": "../node_modules/@lunariajs/core/config.schema.json",
+  "$schema": "node_modules/@lunariajs/core/config.schema.json",
   "repository": {
     "name": "vuejs/vitepress",
-    "rootDir": "."
+    "rootDir": "docs"
   },
   "files": [
     {
-      "location": ".vitepress/config/{en,zh}.ts",
-      "pattern": ".vitepress/config/@lang.ts",
+      "location": "docs/.vitepress/config/{en,zh}.ts",
+      "pattern": "docs/.vitepress/config/@lang.ts",
       "type": "universal"
     },
     {
-      "location": "**/*.md",
+      "location": "docs/**/*.md",
       "pattern": "@lang/@path",
       "type": "universal"
     }
@@ -26,6 +26,6 @@
       "lang": "zh"
     }
   ],
-  "outDir": ".vitepress/dist/_translations",
+  "outDir": "docs/.vitepress/dist/_translations",
   "ignoreKeywords": ["lunaria-ignore"]
 }
