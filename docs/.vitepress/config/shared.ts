@@ -5,11 +5,11 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import { search as zhSearch } from './zh'
-import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import timeline from 'vitepress-markdown-timeline'
+
 
 export const shared = defineConfig({
-  title: 'VitePress',
-
+  title: 'gongwendong',
   rewrites: {
     'en/:rest*': ':rest*'
   },
@@ -21,7 +21,6 @@ export const shared = defineConfig({
   markdown: {
     math: true,
     codeTransformers: [
-      transformerTwoslash(),
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
         postprocess(code) {
