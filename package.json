@@ -1,0 +1,30 @@
+{
+  "name": "vitepress-project",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "serve": "vitepress serve docs",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "lunaria:build": "lunaria --config docs/lunaria.config.json build",
+    "lunaria:open": "open-cli -F=docs .vitepress/dist/_translations/index.html"
+  },
+  "devDependencies": {
+    "@lunariajs/core": "^0.1.1",
+    "@shikijs/vitepress-twoslash": "^3.13.0",
+    "markdown-it-mathjax3": "^4.3.2",
+    "open-cli": "^8.0.0",
+    "postcss-rtlcss": "^5.6.0",
+    "shiki": "^3.13.0",
+    "vitepress-plugin-group-icons": "^1.6.4",
+    "vue": "^3.5.22"
+  },
+  "dependencies": {
+    "npm": "^11.6.2",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-shiki-twoslash": "^0.0.6"
+  }
+}
