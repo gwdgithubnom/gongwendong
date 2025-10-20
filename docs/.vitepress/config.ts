@@ -13,10 +13,10 @@ import llmstxt from 'vitepress-plugin-llms'
 const prod = !!process.env.NETLIFY
 
 export default defineConfig({
-  title: 'VitePress',
+  title: 'gongwendong',
 
   rewrites: {
-    'en/:rest*': ':rest*'
+    // 'en/:rest*': ':rest*'
   },
 
   lastUpdated: true,
@@ -120,17 +120,12 @@ export default defineConfig({
       }
     },
 
-    carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+    // carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
   },
 
   locales: {
     root: { label: 'English' },
-    zh: { label: '简体中文' },
-    pt: { label: 'Português' },
-    ru: { label: 'Русский' },
-    es: { label: 'Español' },
-    ko: { label: '한국어' },
-    fa: { label: 'فارسی' }
+    zh: { label: '简体中文' }
   },
 
   vite: {
@@ -146,7 +141,7 @@ export default defineConfig({
       }),
       prod &&
         llmstxt({
-          workDir: 'en',
+          workDir: '',
           ignoreFiles: ['index.md']
         })
     ],

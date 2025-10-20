@@ -11,7 +11,7 @@ import timeline from 'vitepress-markdown-timeline'
 export const shared = defineConfig({
   title: 'gongwendong',
   rewrites: {
-    'en/:rest*': ':rest*'
+    // 'en/:rest*': ':rest*'
   },
 
   lastUpdated: true,

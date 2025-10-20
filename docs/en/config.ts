@@ -2,28 +2,27 @@ import { createRequire } from 'module'
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
-const pkg = require('package.json')
+const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'zh-CN',
-  description: '基于Vite & Vue 驱动的个人静态网站。',
-
+  lang: 'en-US',
+  description: 'Vite & Vue powered static site generator.',
   themeConfig: {
     nav: nav(),
 
     sidebar: {
-      '/guide/': { base: '/guide/', items: sidebarGuide() },
-      '/reference/': { base: '/reference/', items: sidebarReference() }
+      '/en/guide/': { base: '/en/guide/', items: sidebarGuide() },
+      '/en/reference/': { base: '/en/reference/', items: sidebarReference() }
     },
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: '在 GitHub 上编辑此页面'
+      text: 'Edit this page on GitHub'
     },
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025-present Evan You & gongwendong'
+      copyright: 'Copyright © 2019-present Evan You'
     }
   }
 })
@@ -31,18 +30,17 @@ export default defineAdditionalConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'VitePress 指南',
-      link: '/guide/what-is-vitepress',
-      activeMatch: '/guide/'
+      text: 'Guide',
+      link: '/en/guide/what-is-vitepress',
+      activeMatch: '/en/guide/'
     },
     {
-      text: 'VitePress 参考',
-      link: '/reference/site-config',
-      activeMatch: '/reference/'
+      text: 'Reference',
+      link: '/en/reference/site-config',
+      activeMatch: '/en/reference/'
     },
     {
-        // pkg.version
-      text: '关于 VitePress',
+      text: pkg.version,
       items: [
         {
           text: 'Changelog',
@@ -61,7 +59,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
       text: 'Introduction',
-      collapsed: true,
+      collapsed: false,
       items: [
         { text: 'What is VitePress?', link: 'what-is-vitepress' },
         { text: 'Getting Started', link: 'getting-started' },
@@ -71,7 +69,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     },
     {
       text: 'Writing',
-      collapsed: true,
+      collapsed: false,
       items: [
         { text: 'Markdown Extensions', link: 'markdown' },
         { text: 'Asset Handling', link: 'asset-handling' },
@@ -82,7 +80,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     },
     {
       text: 'Customization',
-      collapsed: true,
+      collapsed: false,
       items: [
         { text: 'Using a Custom Theme', link: 'custom-theme' },
         {
@@ -96,7 +94,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     },
     {
       text: 'Experimental',
-      collapsed: true,
+      collapsed: false,
       items: [
         { text: 'MPA Mode', link: 'mpa-mode' },
         { text: 'Sitemap Generation', link: 'sitemap-generation' }
@@ -117,7 +115,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'CLI', link: 'cli' },
         {
           text: 'Default Theme',
-          base: '/reference/default-theme-',
+          base: '/en/reference/default-theme-',
           items: [
             { text: 'Overview', link: 'config' },
             { text: 'Nav', link: 'nav' },
