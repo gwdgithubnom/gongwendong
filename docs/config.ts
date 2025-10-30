@@ -1,16 +1,17 @@
 import { createRequire } from 'module'
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { defineConfig } from 'vitepress'
 
 const require = createRequire(import.meta.url)
-const pkg = require('package.json')
+// const pkg = require('package.json')
 
 export default defineAdditionalConfig({
   lang: 'zh-CN',
   description: '基于Vite & Vue 驱动的个人静态网站。',
-
   themeConfig: {
     nav: nav(),
-
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : '/' },
+    logoLink: '/',
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }
@@ -21,6 +22,31 @@ export default defineAdditionalConfig({
       text: '在 GitHub 上编辑此页面'
     },
 
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+
+    outline: {
+      label: '页面导航'
+    },
+
+    lastUpdated: {
+        text: '最后更新于',
+        formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'medium'
+        }
+    },
+
+    langMenuLabel: '多语言',
+    returnToTopLabel: '回到顶部',
+    sidebarMenuLabel: '菜单',
+    darkModeSwitchLabel: '主题',
+    lightModeSwitchTitle: '切换到浅色模式',
+    darkModeSwitchTitle: '切换到深色模式',
+    skipToContentLabel: '跳转到内容',
+
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025-present Evan You & gongwendong'
@@ -30,20 +56,18 @@ export default defineAdditionalConfig({
 
 function nav(): DefaultTheme.NavItem[] {
   return [
-    {
-      text: 'VitePress 指南',
-      link: '/guide/what-is-vitepress',
-      activeMatch: '/guide/'
-    },
-    {
-      text: 'VitePress 参考',
-      link: '/reference/site-config',
-      activeMatch: '/reference/'
-    },
+  
+    // {
+    //   text: '站点参考',
+    //   link: '/reference/site-config',
+    //   activeMatch: '/reference/'
+    // },
     {
         // pkg.version
-      text: '关于 VitePress',
+      text: '关于站点',
       items: [
+        { text: '站点指南', link: '/zh/guide/what-is-vitepress' }, 
+        { text: '站点参考', link: '/zh/reference/site-config' }, 
         {
           text: 'Changelog',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
@@ -109,7 +133,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Reference',
+      text: 'Site Reference',
       items: [
         { text: 'Site Config', link: 'site-config' },
         { text: 'Frontmatter Config', link: 'frontmatter-config' },
@@ -121,7 +145,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
           items: [
             { text: 'Overview', link: 'config' },
             { text: 'Nav', link: 'nav' },
-            { text: 'Sidebar', link: 'sidebar' },
+            { text: 'Sidebar', link: '1sidebar' },
             { text: 'Home Page', link: 'home-page' },
             { text: 'Footer', link: 'footer' },
             { text: 'Layout', link: 'layout' },

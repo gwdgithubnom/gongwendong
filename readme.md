@@ -88,3 +88,4 @@
 本项目基于以下开源项目（均采用 MIT License）：
 
 - [vitepress](https://github.com/vuejs/vitepress/tree/v1.6.4) - 提供了 vitepress 功能
+- [vitepress-plugin-comment-with-giscus](https://github.com/comment-with-giscus/vitepress-plugin-comment-with-giscus) - 提供了评论功能

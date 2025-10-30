@@ -17,6 +17,8 @@ export default defineConfig({
 
   rewrites: {
     // 'en/:rest*': ':rest*'
+    'locale/en/:rest*': '/en/:rest*',
+    'locale/zh/:rest*': '/zh/:rest*'
   },
 
   lastUpdated: true,
@@ -40,16 +42,6 @@ export default defineConfig({
         const { localeIndex = 'root' } = env
         const codeCopyButtonTitle = (() => {
           switch (localeIndex) {
-            case 'es':
-              return 'Copiar código'
-            case 'fa':
-              return 'کپی کد'
-            case 'ko':
-              return '코드 복사'
-            case 'pt':
-              return 'Copiar código'
-            case 'ru':
-              return 'Скопировать код'
             case 'zh':
               return '复制代码'
             default:
@@ -104,7 +96,7 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : 'https://127.0.0.1:5173/' },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
@@ -120,12 +112,49 @@ export default defineConfig({
       }
     },
 
+    editLink: {
+      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+      text: '在 GitHub 上编辑此页面'
+    },
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+
+    outline: {
+      label: '页面导航'
+    },
+
+    lastUpdated: {
+        text: '最后更新于',
+        formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'medium'
+        }
+    },
+
+    langMenuLabel: '多语言',
+    returnToTopLabel: '回到顶部',
+    sidebarMenuLabel: '菜单',
+    darkModeSwitchLabel: '主题',
+    lightModeSwitchTitle: '切换到浅色模式',
+    darkModeSwitchTitle: '切换到深色模式',
+    skipToContentLabel: '跳转到内容',
+
     // carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
   },
 
   locales: {
-    root: { label: 'English' },
-    zh: { label: '简体中文' }
+    root: {label: '', themeConfig: {
+      logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : 'https://127.0.0.1:5173/' },
+    }},
+    en: { label: 'English', lang: 'en' ,themeConfig: {
+      logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : 'https://127.0.0.1:5173/' },
+    }},
+    zh: { label: '简体中文', lang: 'zh',themeConfig: {
+      logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : 'https://127.0.0.1:5173/' },
+    } },
   },
 
   vite: {
