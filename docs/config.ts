@@ -10,8 +10,8 @@ export default defineAdditionalConfig({
   description: '基于Vite & Vue 驱动的个人静态网站。',
   themeConfig: {
     nav: nav(),
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : '/' },
-    logoLink: '/',
+    logo: { icon: 'github', width: 24, height: 24, link : '/' },
+    logoLink: 'https://gwdgithubnom.github.io/',
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }
@@ -49,7 +49,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025-present Evan You & gongwendong'
+      copyright: 'Copyright © 2025-present Evan You & Gong Wendong'
     }
   }
 })

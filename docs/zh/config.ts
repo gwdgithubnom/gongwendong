@@ -10,7 +10,7 @@ export default defineAdditionalConfig({
 
   themeConfig: {
     nav: nav(),
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24, link : '/' },
+    // logo: { icon: 'github', width: 24, height: 24 },
     logoLink: '/',
     search: { options: searchOptions() },
 
