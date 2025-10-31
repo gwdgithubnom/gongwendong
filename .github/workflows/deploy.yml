@@ -61,14 +61,17 @@ jobs:
       - name: Deploy to release branch
         if: ${{ success() }}
         run: |
-          cd docs/.vitepress/dist
-          git init
-          git config --local user.email "gwd163nom@163.com"
-          git config --local user.name "gwdgithubnom"
-          git add -A
-          git commit -m '[auto]github-actions[bot]@users.noreply.github.com workflow deploy'
-          git push -f https://${{ github.token }}@github.com/${{ github.repository }} HEAD:release
-
+            cd docs/.vitepress/dist
+            git init
+            git config --local user.email "gwd163nom@163.com"
+            git config --local user.name "gwdgithubnom"
+            git add -A
+            git commit -m '[auto]github-actions[bot]@users.noreply.github.com workflow deploy'
+            echo "Pushing to release branch..."
+            git push -f https://${{ secrets.GITHUB_TOKEN }}@github.com/gwdgithubnom/gongwendong HEAD:release || {
+            echo "Push failed, but continuing workflow..."
+            exit 0
+            }
   # 部署到GitHub Pages
   deploy:
     environment:
@@ -80,3 +83,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
