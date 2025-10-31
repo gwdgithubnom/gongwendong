@@ -78,14 +78,18 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Gong WenDong' }],
-    [
+    ['meta', { property: 'og:title', content: 'Gong WenDong' }],
+    ['meta', { property: 'og:description', content: '个人文档站点，基于Vite & Vue 驱动。' }],    [
       'meta',
       {
         property: 'og:image',
-        content: 'https://vitepress.dev/vitepress-og.jpg'
+        content: 'https://avatars.githubusercontent.com/u/13328198?v=4&size=64'
       }
     ],
     ['meta', { property: 'og:url', content: 'https://gongwendong.github.io/' }],
+    ['meta', { 'http-equiv': 'Cache-Control', content: 'no-cache, no-store, must-revalidate' }],
+    ['meta', { 'http-equiv': 'Pragma', content: 'no-cache' }],
+    ['meta', { 'http-equiv': 'Expires', content: '0' }],
     [
       'script',
       {
