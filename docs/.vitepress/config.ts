@@ -14,8 +14,9 @@ import { useData, inBrowser } from 'vitepress'
 const prod = !!process.env.NETLIFY
 
 export default defineConfig({
+  base: '/',
+  lang: 'zh-CN',
   title: 'Gong WenDong',
-
   rewrites: {
     // 'en/:rest*': ':rest*'
     'locale/en/:rest*': '/en/:rest*',
@@ -59,7 +60,7 @@ export default defineConfig({
   },
 
   sitemap: {
-    hostname: 'https://vitepress.dev',
+    hostname: 'https://gwdgithubnom.github.io/',
     transformItems(items) {
       return items.filter((item) => !item.url.includes('migration'))
     }
@@ -68,15 +69,15 @@ export default defineConfig({
   head: [
     [
       'link',
-      { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }
+      { rel: 'icon', type: 'image/svg+xml', href: 'https://avatars.githubusercontent.com/u/13328198?v=4&size=64' }
     ],
     [
       'link',
-      { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }
+      { rel: 'icon', type: 'image/png', href: 'https://avatars.githubusercontent.com/u/13328198?v=4&size=64' }
     ],
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:site_name', content: 'VitePress' }],
+    ['meta', { property: 'og:site_name', content: 'Gong WenDong' }],
     [
       'meta',
       {
@@ -88,11 +89,26 @@ export default defineConfig({
     [
       'script',
       {
-        src: 'https://cdn.usefathom.com/script.js',
-        'data-site': 'AZBRSFGG',
-        'data-spa': 'auto',
+        src: 'https://static.cloudflareinsights.com/beacon.min.js',
+        'data-cf-beacon': '{"token": "45cec1cf0ef146e393780992931477db"}',
         defer: ''
       }
+    ],
+    [
+      'script',
+      {
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-3TN4S2G4CQ',
+        'data-cf-beacon': '{"token": "45cec1cf0ef146e393780992931477db"}',
+        defer: ''
+      }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-3TN4S2G4CQ');`
     ]
   ],
 

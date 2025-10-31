@@ -1,0 +1,73 @@
+name: Build and Deploy VitePress Site
+
+on:
+  # 当推送到master分支时触发
+  push:
+    branches:
+      - master
+
+  # 允许从Actions选项卡手动触发此工作流程
+  workflow_dispatch:
+
+# 设置权限
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# 允许一个并发部署
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  # 构建工作
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with VitePress
+        run: npm run build
+
+      # 方案1：使用GitHub Pages artifacts部署（推荐）
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: docs/.vitepress/dist
+
+      # 方案2：同时将构建产物推送到release分支
+      - name: Deploy to release branch
+        if: ${{ success() }}
+        run: |
+          cd docs/.vitepress/dist
+          git init
+          git config --local user.email "gwd163nom@163.com"
+          git config --local user.name "gwdgithubnom"
+          git add -A
+          git commit -m '[auto]github-actions[bot]@users.noreply.github.com workflow deploy'
+          git push -f https://${{ github.token }}@github.com/${{ github.repository }} HEAD:release
+
+  # 部署到GitHub Pages
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3

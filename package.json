@@ -6,9 +6,7 @@
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "serve": "vitepress serve docs",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview",
+    "preview": "vitepress preview docs",
     "lunaria:build": "lunaria build",
     "lunaria:open": "open-cli -F=docs .vitepress/dist/_translations/index.html"
   },
