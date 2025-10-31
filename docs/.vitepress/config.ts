@@ -60,7 +60,7 @@ export default defineConfig({
   },
 
   sitemap: {
-    hostname: 'https://gwdgithubnom.github.io/',
+    hostname: 'https://gongwendong.github.io/',
     transformItems(items) {
       return items.filter((item) => !item.url.includes('migration'))
     }
@@ -85,7 +85,7 @@ export default defineConfig({
         content: 'https://vitepress.dev/vitepress-og.jpg'
       }
     ],
-    ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
+    ['meta', { property: 'og:url', content: 'https://gongwendong.github.io/' }],
     [
       'script',
       {
@@ -113,7 +113,7 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    logo: { icon: 'github', width: 24, height: 24, link : 'https://gwdgithubnom.github.io/' },
+    logo: { icon: 'github', width: 24, height: 24, link : 'https://gongwendong.github.io/' },
 
     socialLinks: [
       // {icon: 'github', link: 'https://github.com/vuejs/vitepress' },

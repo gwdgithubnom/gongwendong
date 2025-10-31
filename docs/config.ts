@@ -11,7 +11,7 @@ export default defineAdditionalConfig({
   themeConfig: {
     nav: nav(),
     logo: { icon: 'github', width: 24, height: 24, link : '/' },
-    logoLink: 'https://gwdgithubnom.github.io/',
+    logoLink: 'https://gongwendong.github.io/',
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }
