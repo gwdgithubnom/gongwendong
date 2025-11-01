@@ -10,7 +10,7 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
   excerpt: false,
   transform(rawData) {
     try {
-      console.log("原始数据条数:", rawData.length);
+      console.log("处理前文档数:", rawData.length);
 
       // 改进：从当前文件路径向上查找包含.vitepress的目录
       let docsDir = process.cwd(); // 默认使用当前工作目录作为初始值
@@ -21,18 +21,19 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
         // 优先使用import.meta.url (ES模块环境)
         if (typeof import.meta !== "undefined" && import.meta.url) {
           currentPath = import.meta.url.replace("file://", "");
-          console.log("通过import.meta.url获取当前路径:", currentPath);
+          // console.log("通过import.meta.url获取当前路径:", currentPath);
         }
         // 其次使用__filename (CommonJS环境)
         else if (typeof __filename !== "undefined") {
           currentPath = __filename;
-          console.log("通过__filename获取当前路径:", currentPath);
+          // console.log("通过__filename获取当前路径:", currentPath);
         }
         // 再次使用process.argv[1] (Node.js环境)
         else if (process && process.argv && process.argv[1]) {
           currentPath = process.argv[1];
-          console.log("通过process.argv[1]获取当前路径:", currentPath);
+          // console.log("通过process.argv[1]获取当前路径:", currentPath);
         }
+        // console.log("当前文件路径:", currentPath);
       } catch (error) {
         console.log("获取当前文件路径失败:", error.message);
       }
@@ -44,6 +45,8 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
           validUrl = `file:///${currentPath}`;
         } else if (currentPath.match(/^\/[a-zA-Z]:/)) {
           validUrl = `file:///${currentPath.slice(1)}`;
+        } else{
+          validUrl = `file://${currentPath}`;
         }
       }
       // 如果获取到了当前文件路径，则向上查找docs目录
@@ -63,7 +66,6 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
             docsDir = currentDir; // 找到了包含 .vitepress 的父目录
             break;
           }
-          console.log(currentDir);
           // 向上移动到父目录
           previousDir = currentDir;
           currentDir = path.dirname(currentDir);
@@ -72,24 +74,26 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
 
         // 如果找到了docs目录，则使用它
         if (docsDir) {
-          console.log("找到的docs目录路径: docsDir，", docsDir);
+          console.log("从",validUrl,"找到的docs目录路径:", docsDir);
         } else {
           docsDir = process.cwd();
         }
+      }else{
+        console.warn("无法确定当前文件路径，使用默认工作目录作为docs目录:", docsDir,validUrl);
       }
 
       // 验证docs目录是否存在且包含.vitepress子目录
-      const vitepressPath = path.join(docsDir, ".vitepress");
-      if (
-        fs.existsSync(vitepressPath) &&
-        fs.lstatSync(vitepressPath).isDirectory()
-      ) {
-        console.log("docs目录验证成功，包含.vitepress子目录");
-      } else {
-        console.warn(
-          "警告: docs目录中未找到.vitepress子目录，可能路径计算错误"
-        );
-      }
+      // const vitepressPath = path.join(docsDir, ".vitepress");
+      // if (
+      //   fs.existsSync(vitepressPath) &&
+      //   fs.lstatSync(vitepressPath).isDirectory()
+      // ) {
+      //   console.log("docs目录验证成功，包含.vitepress子目录", vitepressPath);
+      // } else {
+      //   console.warn(
+      //     "警告: docs目录中未找到.vitepress子目录，可能路径计算错误", vitepressPath
+      //   );
+      // }
 
         const timeZone = 'Asia/Shanghai'; // 北京时间 (CST) 对应 UTC+8
         const locale = 'en-US'; // 或 'zh-CN'，这决定了日期格式的习惯
@@ -145,12 +149,12 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
               const timeStr = page.frontmatter?.date || page.frontmatter?.lastUpdatedTime || page.frontmatter?.lastUpdated;
               const parsedDate = new Date(timeStr);
               // 时间有效性校验
-              if (timeStr && !isNaN(parsedDate.getTime()) && parsedDate.getFullYear() > 1970) {
-                frontmatterTime = timeStr;
-                console.log(`页面${page.url}的frontmatter时间有效:`, timeStr, parsedDate);
-              } else {
-                console.log(`页面${page.url}的frontmatter时间无效:`, timeStr);
-              }
+              // if (timeStr && !isNaN(parsedDate.getTime()) && parsedDate.getFullYear() > 1970) {
+              //   frontmatterTime = timeStr;
+              //   console.log(`页面${page.url}的frontmatter时间有效:`, timeStr, parsedDate);
+              // } else {
+              //   console.log(`页面${page.url}的frontmatter时间无效:`, timeStr);
+              // }
             }
 
             // 构建文件路径的逻辑
@@ -214,7 +218,7 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
               lastUpdated = fileMtime.toLocaleString(locale, options);
             } else {
               // 如果都没有，使用当前时间（北京时间）
-              console.log(`页面${page.url}没有找到有效时间，使用当前北京时间:`, lastUpdated);
+              // console.log(`页面${page.url}没有找到有效时间，使用当前北京时间:`, lastUpdated);
             }
 
             // 确保path是有效的字符串
@@ -234,20 +238,20 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
         })
         .filter(Boolean); // 移除处理失败的页面
 
-      console.log("处理后的数据条数:", pages.length);
+      console.log("处理后文档数:", pages.length);
 
       // 如果没有数据，提供默认的测试数据
       if (pages.length === 0) {
         console.log("没有找到页面，使用测试数据");
         return [
           {
-            path: "/",
-            title: "首页",
+            path: "https://gwdgithubnom.github.io",
+            title: "个人文档",
             lastUpdated: new Date().getTime(),
           },
           {
-            path: "/about/",
-            title: "关于",
+            path: "https://gongwendong.github.io",
+            title: "个人主页",
             lastUpdated: new Date(Date.now() - 86400000).getTime(),
           },
         ];
@@ -261,11 +265,6 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
       console.error("处理页面数据时发生严重错误:", error);
       // 返回默认测试数据作为最后的兜底
       return [
-        {
-          path: "/",
-          title: "首页",
-          lastUpdated: new Date().getTime(),
-        },
       ];
     }
   },
