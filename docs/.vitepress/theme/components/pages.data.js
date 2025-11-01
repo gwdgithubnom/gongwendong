@@ -3,6 +3,30 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+function formatDateToString(dateOrString) {
+    let date = dateOrString;
+
+    // 如果传入的是字符串，尝试将其解析为 Date 对象
+    if (typeof dateOrString === 'string') {
+        date = new Date(dateOrString);
+    }
+    
+    // 校验：确保它是一个有效的 Date 实例
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        return ''; // 解析失败或传入的不是有效 Date 对象，返回空字符串
+    }
+
+    // --- 格式化逻辑 ---
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 // 扩展路径匹配模式并添加更多调试信息
 export default createContentLoader(["**/*.md", "**/*.mdx"], {
   includeSrc: true,
@@ -145,81 +169,82 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
             
             // 从frontmatter获取时间并校验
             let frontmatterTime = null;
-            if (page.frontmatter?.date || page.frontmatter?.lastUpdated) {
-              const timeStr = page.frontmatter?.date || page.frontmatter?.lastUpdatedTime || page.frontmatter?.lastUpdated;
+            if (page.frontmatter?.date || page.frontmatter?.lastUpdated || page.frontmatter?.lastUpdatedTime) {
+              const timeStr = page.frontmatter?.date || page.frontmatter?.lastUpdated || page.frontmatter?.lastUpdatedTime;
               const parsedDate = new Date(timeStr);
               // 时间有效性校验
-              // if (timeStr && !isNaN(parsedDate.getTime()) && parsedDate.getFullYear() > 1970) {
-              //   frontmatterTime = timeStr;
-              //   console.log(`页面${page.url}的frontmatter时间有效:`, timeStr, parsedDate);
-              // } else {
-              //   console.log(`页面${page.url}的frontmatter时间无效:`, timeStr);
-              // }
-            }
-
-            // 构建文件路径的逻辑
-            let filePath = page.url === "/" ? "index.md" : page.url;
-            // 移除URL末尾的斜杠
-            if (filePath.endsWith("/")) {
-              filePath = filePath.slice(0, -1);
-            }
-            // 如果路径没有文件扩展名，添加.md
-            if (!filePath.endsWith(".md") && !filePath.endsWith(".mdx")) {
-              filePath = filePath + ".md";
-            }
-            // 移除开头的斜杠
-            if (filePath.startsWith("/")) {
-              filePath = filePath.slice(1);
-            }
-
-            // 构建完整的文件路径
-            const fullPath = path.join(docsDir, filePath);
-            // console.log('完整文件路径:', fullPath)
-
-            // 检查文件是否存在，如果存在，尝试获取文件的修改时间
-            let fileMtime = null;
-            if (fs.existsSync(fullPath)) {
-              try {
-                const stats = fs.statSync(fullPath);
-                fileMtime = stats.mtime;
-                // console.log(`文件${fullPath}的修改时间:`, fileMtime);
-              } catch (error) {
-                console.log('获取文件状态失败:', error.message)
-              }
-            } else {
-              // 尝试其他可能的文件路径格式
-              const alternativePaths = [
-                path.join(docsDir, page.url + ".md"),
-                path.join(docsDir, page.url + ".mdx"),
-                path.join(docsDir, page.url, "index.md"),
-                path.join(docsDir, page.url, "index.mdx"),
-              ];
-
-              for (const altPath of alternativePaths) {
-                if (fs.existsSync(altPath)) {
-                  try {
-                    const stats = fs.statSync(altPath);
-                    fileMtime = stats.mtime;
-                    // console.log(`找到替代文件路径: ${altPath}, 修改时间: ${fileMtime}`);
-                    break;
-                  } catch (error) {
-                    console.log("获取替代文件状态失败:", error.message);
-                  }
-                }
+              if (timeStr && !isNaN(parsedDate.getTime()) && parsedDate.getFullYear() > 1970) {
+                frontmatterTime = timeStr;
+                // console.log(`页面${page.url}的frontmatter时间有效:`, timeStr, parsedDate);
+              } else {
+                // console.log(`页面${page.url}的frontmatter时间无效:`, timeStr);
               }
             }
-
             // 设置最终的lastUpdated值 - 优先使用frontmatter时间，其次使用文件修改时间，最后使用当前时间
             if (frontmatterTime) {
               // 将frontmatter时间转换为北京时间
               lastUpdated = frontmatterTime.toLocaleString(locale, options);
-            } else if (fileMtime) {
-              // 将文件修改时间转换为北京时间
-              lastUpdated = fileMtime.toLocaleString(locale, options);
+              // console.log(`页面${page.url}使用frontmatter时间作为最后更新时间:`, formatDateToString(lastUpdated), title);
             } else {
-              // 如果都没有，使用当前时间（北京时间）
-              // console.log(`页面${page.url}没有找到有效时间，使用当前北京时间:`, lastUpdated);
-            }
+              // 构建文件路径的逻辑
+              let filePath = page.url === "/" ? "index.md" : page.url;
+              // 移除URL末尾的斜杠
+              if (filePath.endsWith("/")) {
+                filePath = filePath.slice(0, -1);
+              }
+              // 如果路径没有文件扩展名，添加.md
+              if (!filePath.endsWith(".md") && !filePath.endsWith(".mdx")) {
+                filePath = filePath + ".md";
+              }
+              // 移除开头的斜杠
+              if (filePath.startsWith("/")) {
+                filePath = filePath.slice(1);
+              }
+
+              // 构建完整的文件路径
+              const fullPath = path.join(docsDir, filePath);
+              // console.log('完整文件路径:', fullPath)
+
+              // 检查文件是否存在，如果存在，尝试获取文件的修改时间
+              let fileMtime = null;
+              if (fs.existsSync(fullPath)) {
+                try {
+                  const stats = fs.statSync(fullPath);
+                  fileMtime = stats.mtime;
+                  // console.log(`文件${fullPath}的修改时间:`, fileMtime);
+                } catch (error) {
+                  console.log('获取文件状态失败:', error.message)
+                }
+              } else {
+                // 尝试其他可能的文件路径格式
+                const alternativePaths = [
+                  path.join(docsDir, page.url + ".md"),
+                  path.join(docsDir, page.url + ".mdx"),
+                  path.join(docsDir, page.url, "index.md"),
+                  path.join(docsDir, page.url, "index.mdx"),
+                ];
+
+                for (const altPath of alternativePaths) {
+                  if (fs.existsSync(altPath)) {
+                    try {
+                      const stats = fs.statSync(altPath);
+                      fileMtime = stats.mtime;
+                      // console.log(`找到替代文件路径: ${altPath}, 修改时间: ${fileMtime}`);
+                      break;
+                    } catch (error) {
+                      console.log("获取替代文件状态失败:", error.message);
+                    }
+                  }
+                }
+              }
+              if (fileMtime) {
+                // 将文件修改时间转换为北京时间
+                lastUpdated = fileMtime.toLocaleString(locale, options);
+              } else {
+                // 如果都没有，使用当前时间（北京时间）
+                // console.log(`页面${page.url}没有找到有效时间，使用当前北京时间:`, lastUpdated);
+              }
+            } 
 
             // 确保path是有效的字符串
             const pathPath = typeof page.url === "string" ? page.url : "";
@@ -229,7 +254,7 @@ export default createContentLoader(["**/*.md", "**/*.mdx"], {
             return {
               path: pathPath,
               title,
-              lastUpdated: lastUpdated,
+              lastUpdated: formatDateToString(new Date(lastUpdated)),
             };
           } catch (error) {
             console.error("处理页面时出错:", error, page);
