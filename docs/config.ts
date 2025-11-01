@@ -81,12 +81,12 @@ function nav(): DefaultTheme.NavItem[] {
         { text: "站点指南", link: "/zh/guide/what-is-vitepress" },
         { text: "站点参考", link: "/zh/reference/site-config" },
         {
-          text: "Changelog",
-          link: "https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md",
+          text: "站点引用",
+          link: "https://github.com/vuejs/vitepress/blob/main/.github/contributing.md",
         },
         {
-          text: "Contributing",
-          link: "https://github.com/vuejs/vitepress/blob/main/.github/contributing.md",
+          text: "变更日志",
+          link: "https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md",
         },
       ],
     },
