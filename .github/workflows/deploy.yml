@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - main
 
   # 允许从Actions选项卡手动触发此工作流程
   workflow_dispatch:
@@ -24,8 +25,9 @@ jobs:
   # 构建工作
   build:
     runs-on: ubuntu-latest
+    # && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     if: |
-      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && (startsWith(github.event.head_commit.message, '[deploy]') || startsWith(github.event.head_commit.message, '[doc]'))) ||
+      (github.event_name == 'push' && (startsWith(github.event.head_commit.message, '[deploy]') || startsWith(github.event.head_commit.message, '[doc]'))) ||
       github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
